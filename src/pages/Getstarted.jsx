@@ -7,23 +7,21 @@ export default function Getstarted() {
   const navigate = useNavigate()
 
   return (
-    <div className="h-screen w-full bg-white font-sora">
-      {/* TOP: Lottie - exactly half the viewport */}
-      <div className="h-[50vh] w-full flex items-center justify-center -mt-4">
-        <DotLottieReact
-          src="https://lottie.host/8932a874-d1e9-4ee1-a4da-3e6f17d51652/aVwzx8uHli.lottie"
-          loop
-          autoplay
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover"   // ensures full coverage without distortion
-          }}
-        />
+    <div className="flex flex-col h-screen w-full bg-white font-sora">
+      {/* TOP: Lottie fills half the screen */}
+      <div className="flex-1 flex items-center justify-center">
+        <div className="w-full max-w-md h-full">
+          <DotLottieReact
+            src="https://lottie.host/8932a874-d1e9-4ee1-a4da-3e6f17d51652/aVwzx8uHli.lottie"
+            loop
+            autoplay
+            style={{ width: "100%", height: "100%" }}
+          />
+        </div>
       </div>
 
-      {/* BOTTOM: curved container exactly the other half */}
-      <div className="h-[40vh] w-full bg-white rounded-t-[28px] p-6 flex flex-col justify-center items-center">
+      {/* BOTTOM: curved container */}
+      <div className="flex-1 bg-white rounded-t-[28px] p-6 flex flex-col justify-center items-center">
         <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
           Your ideal app, Your ideal relationship.
         </h2>
