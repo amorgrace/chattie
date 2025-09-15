@@ -12,10 +12,10 @@ export default function Getstarted() {
       <div className="flex-1 flex items-center justify-center">
         <div className="w-full max-w-md h-full">
           <DotLottieReact
-            src="https://lottie.host/8932a874-d1e9-4ee1-a4da-3e6f17d51652/aVwzx8uHli.lottie"
+            src="https://lottie.host/c106efed-0457-46b2-b252-7971997714b5/h7RUMes3SJ.lottie"
             loop
             autoplay
-            style={{ width: "430px", height: "100%" }}
+            // style={{ width: "430px", height: "100%" }}
           />
         </div>
       </div>
