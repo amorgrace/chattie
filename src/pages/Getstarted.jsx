@@ -15,7 +15,7 @@ export default function Getstarted() {
             src="https://lottie.host/8932a874-d1e9-4ee1-a4da-3e6f17d51652/aVwzx8uHli.lottie"
             loop
             autoplay
-            style={{ width: "100%", height: "100%" }}
+            style={{ width: "430px", height: "100%" }}
           />
         </div>
       </div>
