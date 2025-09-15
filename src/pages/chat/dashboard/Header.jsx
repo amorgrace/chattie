@@ -1,0 +1,52 @@
+import { Plus } from "lucide-react"
+import ChatbubbleLP from "/assets/ChatbubbleLP.png"
+import sample1 from "/assets/sample1.png"
+import sample2 from "/assets/sample2.png"
+import sample3 from "/assets/sample3.png"
+import sample4 from "/assets/sample4.png"
+import { useNavigate } from "react-router-dom"
+
+export default function Header() {
+  const navigate = useNavigate()
+  const statuses = [sample1, sample2, sample3, sample4, sample1, sample2]
+
+  return (
+    <header className="bg-white shadow px-4 py-3">
+      {/* Top Row */}
+      <div className="flex items-center justify-between">
+        {/* Left: Logo + Text + Greeting */}
+        <div className="flex flex-col items-start">
+          <div className="flex items-center mb-5 mt-5">
+            <img src={ChatbubbleLP} alt="Logo" className="w-7 h-6 mr-2" />
+            <h1 className="text-lg font-bold text-gray-900 mt-1">Chattie</h1>
+          </div>
+          <p className="text-sm text-gray-600 mb-2">Hello, User</p>
+        </div>
+
+        {/* Right: New Conversation */}
+        <button
+        onClick={() => navigate("/chat/new-chat")}
+        className="p-2 rounded-full bg-[#8B4513] text-white">
+          
+          <Plus size={20} />
+        </button>
+      </div>
+
+      {/* Status Row */}
+      <div className="mt-5 flex space-x-5 overflow-x-auto hide-scrollbar">
+        {statuses.map((src, index) => (
+          <div key={index} className="flex flex-col items-center space-y-2">
+            <div className="w-17 h-17 rounded-full border-2 border-purple-600 p-1">
+              <img
+                src={src}
+                alt={`status-${index}`}
+                className="w-full h-full rounded-full object-cover"
+              />
+            </div>
+            <span className="text-xs text-gray-600">User {index + 1}</span>
+          </div>
+        ))}
+      </div>
+    </header>
+  )
+}
