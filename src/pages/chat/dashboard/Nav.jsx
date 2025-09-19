@@ -18,7 +18,7 @@ export default function Nav() {
       {/* New Chat */}
       <button
         onClick={() => navigate("/chat/new-chat")}
-        className="flex items-center gap-2 bg-[#8B4513] text-white font-medium px-4 py-3 rounded-full shadow-md hover:bg-[#5C4033] transition"
+        className="flex items-center gap-2 bg-[#C19A6B] text-black font-medium px-4 py-3 rounded-full shadow-md hover:bg-[#8B4513] transition"
       >
         <Plus size={18} />
         <span>New Chat</span>

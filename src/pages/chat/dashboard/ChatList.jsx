@@ -109,7 +109,7 @@ export default function ChatList() {
           <div className="flex flex-col items-end ml-3 min-w-[60px]">
             <span className="text-xs text-gray-500">{chat.time}</span>
             {chat.unread > 0 && (
-              <div className="mt-1 bg-[#8B4513] text-white text-xs font-bold min-w-[22px] h-5 px-2 flex items-center justify-center rounded-full">
+              <div className="mt-1 bg-[#C19A6B] text-black text-xs font-bold min-w-[22px] h-5 px-2 flex items-center justify-center rounded-full">
                 {chat.unread}
               </div>
             )}

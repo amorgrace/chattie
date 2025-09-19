@@ -5,10 +5,28 @@ import sample2 from "/assets/sample2.png"
 import sample3 from "/assets/sample3.png"
 import sample4 from "/assets/sample4.png"
 import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import axios from "axios"
 
 export default function Header() {
   const navigate = useNavigate()
+  const [username, setUsername] = useState("User") // default
   const statuses = [sample1, sample2, sample3, sample4, sample1, sample2]
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get(
+          "https://chattie-backend.onrender.com/user/me/",
+          { withCredentials: true }
+        )
+        setUsername(res.data.username)
+      } catch (err) {
+        console.error("Failed to fetch user:", err)
+      }
+    }
+    fetchUser()
+  }, [])
 
   return (
     <header className="bg-white shadow px-4 py-3">
@@ -20,14 +38,14 @@ export default function Header() {
             <img src={ChatbubbleLP} alt="Logo" className="w-7 h-6 mr-2" />
             <h1 className="text-lg font-bold text-gray-900 mt-1">Chattie</h1>
           </div>
-          <p className="text-sm text-gray-600 mb-2">Hello, User</p>
+          <p className="text-sm text-gray-600 mb-2">Hello, {username}</p>
         </div>
 
         {/* Right: New Conversation */}
         <button
-        onClick={() => navigate("/chat/new-chat")}
-        className="p-2 rounded-full bg-[#8B4513] text-white">
-          
+          onClick={() => navigate("/chat/new-chat")}
+          className="p-2 rounded-full bg-[#C19A6B] text-black"
+        >
           <Plus size={20} />
         </button>
       </div>

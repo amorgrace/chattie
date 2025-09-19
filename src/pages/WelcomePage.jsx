@@ -34,7 +34,7 @@ export default function WelcomePage() {
             className="w-full bg-purple-600 text-x text-white font-semibold py-4 rounded-2xl shadow hover:bg-purple-900 transition duration-300 flex items-center justify-between px-9"
           >
             <span>Get Started</span>
-            <span>{">"}</span>
+            <span className="text-xl">{">"}</span>
           </button>
         </div>
       </div>
