@@ -10,17 +10,23 @@ import axios from "axios"
 
 export default function Header() {
   const navigate = useNavigate()
-  const [username, setUsername] = useState("User") // default
+  const [username, setUsername] = useState("User")
   const statuses = [sample1, sample2, sample3, sample4, sample1, sample2]
 
   useEffect(() => {
+    const token = localStorage.getItem("token")
+    if (!token) return
+
     const fetchUser = async () => {
       try {
         const res = await axios.get(
           "https://chattie-backend.onrender.com/user/me/",
-          { withCredentials: true }
+          {
+            headers: { Authorization: `Token ${token}` },
+          }
         )
-        setUsername(res.data.username)
+        // adjust the field if backend returns 'name' instead of 'username'
+        setUsername(res.data.name || res.data.username || "User")
       } catch (err) {
         console.error("Failed to fetch user:", err)
       }
@@ -32,7 +38,6 @@ export default function Header() {
     <header className="bg-white shadow px-4 py-3">
       {/* Top Row */}
       <div className="flex items-center justify-between">
-        {/* Left: Logo + Text + Greeting */}
         <div className="flex flex-col items-start">
           <div className="flex items-center mb-5 mt-5">
             <img src={ChatbubbleLP} alt="Logo" className="w-7 h-6 mr-2" />
@@ -41,7 +46,6 @@ export default function Header() {
           <p className="text-sm text-gray-600 mb-2">Hello, {username}</p>
         </div>
 
-        {/* Right: New Conversation */}
         <button
           onClick={() => navigate("/chat/new-chat")}
           className="p-2 rounded-full bg-[#C19A6B] text-black"

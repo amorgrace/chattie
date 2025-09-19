@@ -7,7 +7,7 @@ import Nav from "./Nav"
 export default function Profile() {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
-    name: "",
+    username: "",
     phone_number: "",
     email: "",
   })
@@ -15,33 +15,37 @@ export default function Profile() {
   const [error, setError] = useState("")
   const [message, setMessage] = useState("")
 
-  // Fetch user details but never block the UI
+  const token = localStorage.getItem("token")
+
+  // fetch user details immediately but never block UI
   useEffect(() => {
+    if (!token) return
     const fetchUser = async () => {
       try {
         const res = await axios.get(
-          "https://chattie-backend.onrender.com/user/me",
-          { withCredentials: true }
+          "https://chattie-backend.onrender.com/user/me/",
+          {
+            headers: { Authorization: `Token ${token}` },
+          }
         )
         setFormData({
-          name: res.data.name || "",
+          username: res.data.username || "",
           phone_number: res.data.phone_number || "",
           email: res.data.email || "",
         })
       } catch {
-        // fail silently—form stays empty if fetch fails
+        // ignore errors, form stays empty
       }
     }
     fetchUser()
-  }, [])
+  }, [token])
 
-  const handleChange = e => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
-  }
+  const handleChange = e =>
+    setFormData(prev => ({ ...prev, [e.target.username]: e.target.value }))
 
   const handleSubmit = async e => {
     e.preventDefault()
+    if (!token) return
     setSaving(true)
     setError("")
     setMessage("")
@@ -49,7 +53,9 @@ export default function Profile() {
       await axios.put(
         "https://chattie-backend.onrender.com/user/me/",
         formData,
-        { withCredentials: true }
+        {
+          headers: { Authorization: `Token ${token}` },
+        }
       )
       setMessage("Profile updated successfully.")
     } catch {
@@ -61,12 +67,17 @@ export default function Profile() {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        "https://chattie-backend.onrender.com/auth/log-out/",
-        {},
-        { withCredentials: true }
-      )
+      if (token) {
+        await axios.post(
+          "https://chattie-backend.onrender.com/auth/log-out/",
+          {},
+          {
+            headers: { Authorization: `Token ${token}` },
+          }
+        )
+      }
     } finally {
+      localStorage.removeItem("token")
       navigate("/login")
     }
   }
@@ -81,11 +92,10 @@ export default function Profile() {
         {error && <p className="text-red-600 mb-4">{error}</p>}
         {message && <p className="text-green-600 mb-4">{message}</p>}
 
-        {/* Profile icon image */}
         <div className="flex flex-col items-center mb-6">
           <img
-            src="/assets/profile-icon.png" // adjust to your actual image path
-            alt={formData.name || "Profile"}
+            src="https://images.pexels.com/photos/163077/mario-yoschi-figures-funny-163077.jpeg"
+            alt={formData.username || "Profile"}
             className="w-24 h-24 rounded-full object-cover mb-4"
           />
         </div>
@@ -99,9 +109,9 @@ export default function Profile() {
             <input
               type="text"
               name="name"
-              value={formData.name}
+              value={formData.username}
               onChange={handleChange}
-              className="w-full border rounded-lg px-3 py-3 focus:ring-1 focus:ring-purple-600"
+              className="w-full border rounded-lg px-3 py-3 bg-gray-100 text-gray-500 cursor-not-allowed"
             />
           </div>
 
@@ -112,7 +122,7 @@ export default function Profile() {
               name="phone_number"
               value={formData.phone_number}
               onChange={handleChange}
-              className="w-full border rounded-lg px-3 py-3 focus:ring-1 focus:ring-purple-600"
+              className="w-full border rounded-lg px-3 py-3 bg-gray-100 text-gray-500 cursor-not-allowed"
             />
           </div>
 

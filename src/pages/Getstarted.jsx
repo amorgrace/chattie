@@ -21,7 +21,7 @@ export default function Getstarted() {
       </div>
 
       {/* BOTTOM: curved container */}
-      <div className="flex-1 bg-white rounded-t-[28px] p-6 flex flex-col justify-center items-center">
+      <div className="flex-1 bg-white rounded-t-[28px] p-6 flex flex-col justify-center items-center -mt-30">
         <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
           Your ideal app, Your ideal relationship.
         </h2>

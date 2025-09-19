@@ -21,23 +21,35 @@ export default function LoginPage() {
     setError("")
     setMessage("")
     setLoading(true)
+
     try {
-      await axios.post(
+      const res = await axios.post(
         "https://chattie-backend.onrender.com/auth/log-in/",
+        { email: form.email, password: form.password },
         {
-          email: form.email,
-          password: form.password
-        },
-        { withCredentials: true }
+          withCredentials: true,
+          timeout: 20000, // ⏱️ 10-second timeout
+        }
       )
+
+      const token = res.data.key // adjust if your key name differs
+      if (token) {
+        localStorage.setItem("token", token) // store token for later API calls
+      }
+
       setMessage("Login successful. Redirecting...")
-      setTimeout(() => navigate("/chat/dashboard/"), 2000) // redirect after 3 seconds
+      setTimeout(() => navigate("/chat/dashboard/"), 2000)
     } catch (err) {
-      setError(
-        err.response?.data?.detail ||
-          err.response?.data?.error ||
-          "Login failed"
-      )
+      if (err.code === "ECONNABORTED") {
+        // axios sets this code on timeout
+        setError("Server is waking up. Try again, it will work.")
+      } else {
+        setError(
+          err.response?.data?.detail ||
+            err.response?.data?.error ||
+            "Login failed"
+        )
+      }
     } finally {
       setLoading(false)
     }
@@ -45,7 +57,6 @@ export default function LoginPage() {
 
   return (
     <div className="relative min-h-screen flex flex-col font-sora bg-gray-50">
-      {/* ✅ Slide-down notification */}
       {message && (
         <div className="fixed top-0 left-1/2 -translate-x-1/2 mt-4 px-6 py-3 bg-green-600 text-white font-medium text-sm rounded-xl shadow-lg animate-slideDown z-50 whitespace-nowrap">
           {message}
@@ -112,8 +123,8 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className={`w-full h-15 bg-purple-700 text-white font-semibold py-3 rounded-xl shadow hover:bg-purple-900 transition duration-300 flex items-center justify-center gap-2`}
             disabled={loading}
+            className="w-full h-15 bg-purple-700 text-white font-semibold py-3 rounded-xl shadow hover:bg-purple-900 transition duration-300 flex items-center justify-center gap-2"
           >
             {loading && (
               <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
